@@ -1,16 +1,3 @@
-var currentQuestionIndex = 0;
-var time = questions.length * 15;
-var timerId;
-
-// variables to reference DOM elements
-var questionsEl = document.getElementById('questions');
-var timerEl = document.getElementById('time');
-var choicesEl = document.getElementById('choices');
-var submitBtn = document.getElementById('submit');
-var startBtn = document.getElementById('start');
-var initialsEl = document.getElementById('initials');
-var feedbackEl = document.getElementById('feedback');
-
 
 var questions = [
   {
@@ -22,7 +9,7 @@ var questions = [
     title: 'The condition in an if / else statement is enclosed within ____.',
     choices: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
     answer: 'parentheses',
-  },{
+  }, {
     title: 'Arrays in JavaScript can be used to store ____.',
     choices: [
       'numbers and strings',
@@ -46,6 +33,18 @@ var questions = [
   },
 ];
 
+var currentQuestionIndex = 0;
+var time = questions.length * 15;
+var timerId;
+
+// variables to reference DOM elements
+var questionsEl = document.getElementById('questions');
+var timerEl = document.getElementById('time');
+var choicesEl = document.getElementById('choices');
+var submitBtn = document.getElementById('submit');
+var startBtn = document.getElementById('start');
+var initialsEl = document.getElementById('initials');
+var feedbackEl = document.getElementById('feedback');
 
 
 
@@ -79,30 +78,32 @@ function startQuiz() {
 }
 
 
+function getQuestion() {
+  var currentQuestion = questions[currentQuestionIndex]
 
+  // update title with current question
+  var titleEl = document.getElementById('question-title');
+  titleEl.textContent = currentQuestion.title;
 
-// update title with current question
-var titleEl = document.getElementById('question-title');
-titleEl.textContent = currentQuestion.title;
+  // clear out any old question choices
+  choicesEl.innerHTML = '';
 
-// clear out any old question choices
-choicesEl.innerHTML = '';
+  // loop over choices
+  for (var i = 0; i < currentQuestion.choices.length; i++) {
+    // create new button for each choice
+    var choice = currentQuestion.choices[i];
+    var choiceNode = document.createElement('button');
+    choiceNode.setAttribute('class', 'choice');
+    choiceNode.setAttribute('value', choice);
 
-// loop over choices
-for (var i = 0; i < currentQuestion.choices.length; i++) {
-  // create new button for each choice
-  var choice = currentQuestion.choices[i];
-  var choiceNode = document.createElement('button');
-  choiceNode.setAttribute('class', 'choice');
-  choiceNode.setAttribute('value', choice);
+    choiceNode.textContent = i + 1 + '. ' + choice;
 
-  choiceNode.textContent = i + 1 + '. ' + choice;
-
-  // display on the page
-  choicesEl.appendChild(choiceNode);
+    // display on the page
+    choicesEl.appendChild(choiceNode);
+  }
 }
 
-unction questionClick(event) {
+function questionClick(event) {
   var buttonEl = event.target;
 
   // if the clicked element is not a choice button, do nothing.
@@ -122,18 +123,19 @@ unction questionClick(event) {
     // display new time on page
     timerEl.textContent = time;
     // move to next question
-  currentQuestionIndex++;
+    currentQuestionIndex++;
 
-  // check if we've run out of questions
-  if (time <= 0 || currentQuestionIndex === questions.length) {
-    quizEnd();
-  } else {
-    getQuestion();
+    // check if we've run out of questions
+    if (time <= 0 || currentQuestionIndex === questions.length) {
+      quizEnd();
+    } else {
+      getQuestion();
+    }
   }
 }
 
 function quizEnd() {
-  // stop timer
+  // // stop timer
   clearInterval(timerId);
 
   // show end screen
@@ -148,25 +150,27 @@ function quizEnd() {
   questionsEl.setAttribute('class', 'hide');
 }
 
-// make sure value wasn't empty
-if (initials !== '') {
-  // get saved scores from localstorage, or if not any, set to empty array
-  var highscores =
-    JSON.parse(window.localStorage.getItem('highscores')) || [];
+function saveHighscore() {
+  var initials = initials.value.trim()
+  // funcmake sure value wasn't empty
+  if (initials !== '') {
+    // get saved scores from localstorage, or if not any, set to empty array
+    var highscores =
+      JSON.parse(window.localStorage.getItem('highscores')) || [];
 
-  // format new score object for current user
-  var newScore = {
-    score: time,
-    initials: initials,
-  };
+    // format new score object for current user
+    var newScore = {
+      score: time,
+      initials: initials,
+    };
 
-  // save to localstorage
-  highscores.push(newScore);
-  window.localStorage.setItem('highscores', JSON.stringify(highscores));
+    // save to localstorage
+    highscores.push(newScore);
+    window.localStorage.setItem('highscores', JSON.stringify(highscores));
 
-  // redirect to next page
-  window.location.href = 'highscores.html';
-}
+    // redirect to next page
+    window.location.href = 'highscores.html';
+  }
 }
 
 function checkForEnter(event) {
@@ -180,7 +184,8 @@ function checkForEnter(event) {
 submitBtn.onclick = saveHighscore;
 
 // user clicks button to start quiz
-startBtn.onclick = startQuiz;
+// startBtn.onclick = startQuiz;
+startBtn.addEventListener("click", startQuiz)
 
 // user clicks on element containing choices
 choicesEl.onclick = questionClick;
