@@ -1,56 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coding Quiz</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code-Quiz
-  </title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-<body>
+  <body>
+    <div class="scores"><a href="highscores.html">View Highscores</a></div>
 
-  <div class="outside-container">
-
-    <!-- top-bar section-->
-    <div class="top-bar">
-      <!-- <button>View High scores</button> -->
-      <a href="highscores.html">Highscores</a>
-      <button id="btn-start">Start Timer</button>
-
-      <p id="timer">Time remaining:75</p>
-    </div>
-    <!--inside div for wrapping page content-->
-    <div id="intro" class="inside-container">
-
-      <!--header/quiz introduction-->
-      <header class="quiz-introduction">
-
-        <h1>
-          Welcome to my code Quiz
-        </h1>
-        <br>
-
-        <h2>How to play code quiz</h2>
-
-
-        <p class="quizDescribe"> Quiz describtion</p>
-        In this quiz you will be represented with a question that you would answer before you run out of time. You view
-        you result
-        after your done.
+    <div class="timer">Time: <span id="time">0</span></div>
+    <div class="wrapper">
+      <div id="start-screen" class="start">
+        <h1>Coding Quiz Challenge</h1>
+        <p>
+          Try to answer the following code-related questions within the time
+          limit. Keep in mind that incorrect answers will penalize your
+          score/time by 15 seconds!
         </p>
-        <p class="startQuiz">Start-quiz </p>
+        <button id="start">Start Quiz</button>
+      </div>
+      <div id="questions" class="hide">
+        <h2 id="question-title"></h2>
+        <div id="choices" class="choices"></div>
+      </div>
 
-        <button id="btn-start">Start Timer</button>
-      </header>
+      <div id="end-screen" class="hide">
+        <h2>All done!</h2>
+        <p>Your final score is <span id="final-score"></span>.</p>
+        <p>
+          Enter initials: <input type="text" id="initials" max="3" />
+          <button id="submit">Submit</button>
+        </p>
+      </div>
 
+      <div id="feedback" class="feedback hide"></div>
     </div>
 
-
-    <!--<button id="startBtn" class=" btn"  onclick="check(this)">Start quiz-->
-  </div>
-  <script src="../timer/script.js"></script>
-</body>
-
+   
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
